@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import supported_languages from '../languages.json';
 
-const BACKEND_URL = `http://${window.location.hostname}:8000`;
+const API_URL = '/api';
 
 export default function ArabicPage() {
   const [inputText, setInputText] = useState('');
@@ -16,7 +16,7 @@ export default function ArabicPage() {
     const destCode = supported_languages[selectedLanguage];
 
     try {
-      const res = await fetch(`${BACKEND_URL}/translate`, {
+      const res = await fetch(`${API_URL}/translate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: inputText, dest_lang_code: destCode })
@@ -35,7 +35,7 @@ export default function ArabicPage() {
       let finalLang = targetLangCode;
 
       if (!finalLang) {
-        const detRes = await fetch(`${BACKEND_URL}/detect`, {
+        const detRes = await fetch(`${API_URL}/detect`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text: textToSpeak })
@@ -44,7 +44,7 @@ export default function ArabicPage() {
         finalLang = detData.language || 'ar';
       }
 
-      const audRes = await fetch(`${BACKEND_URL}/speak`, {
+      const audRes = await fetch(`${API_URL}/speak`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: textToSpeak, language: finalLang })

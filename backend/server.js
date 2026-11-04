@@ -12,8 +12,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 1. Translate Endpoint
-app.post('/translate', async (req, res) => {
+// API endpoints are served under /api to match the Vercel public rewrite.
+app.post('/api/translate', async (req, res) => {
   try {
     const { text, dest_lang_code } = req.body;
     const result = await translate(text, { to: dest_lang_code });
@@ -24,11 +24,10 @@ app.post('/translate', async (req, res) => {
   }
 });
 
-// 2. Detect Endpoint
-app.post('/detect', async (req, res) => {
+app.post('/api/detect', async (req, res) => {
   try {
     const { text } = req.body;
-    let detectedLang = supported_languages['English']; // Default fallback
+    let detectedLang = supported_languages['English'];
 
     // Lightweight heuristic detection to handle main scripts
     if (text) {
@@ -47,13 +46,12 @@ app.post('/detect', async (req, res) => {
   }
 });
 
-// 3. Speak Endpoint - Returns Base64 to entirely bypass browser CORS blocks
-app.post('/speak', async (req, res) => {
+app.post('/api/speak', async (req, res) => {
   try {
     const { text, language } = req.body;
     const targetLang = language || supported_languages['English'];
 
-    // 1st Attempt: Use native base64 generation if using google-tts-api version 2
+    // Use native base64 generation when supported by the installed google-tts-api version.
     if (googleTTS && typeof googleTTS.getAudioBase64 === 'function') {
       const base64 = await googleTTS.getAudioBase64(text, {
         lang: targetLang,
@@ -63,7 +61,7 @@ app.post('/speak', async (req, res) => {
       return res.json({ audio: `data:audio/mp3;base64,${base64}` });
     }
 
-    // Fallback: If using version 1, get the URL and fetch it via the backend
+    // Fallback for version 1: fetch the generated audio URL on the backend.
     let audioUrl;
     if (typeof googleTTS === 'function') {
       audioUrl = await googleTTS(text, targetLang, 1);
@@ -87,14 +85,18 @@ app.post('/speak', async (req, res) => {
       console.error(err);
       res.status(500).json({ error: 'Audio fetch failed' });
     });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Audio generation failed' });
   }
 });
 
-const PORT = 8000;
-app.listen(PORT, () => {
-  console.log(`Backend is running flawlessly on http://localhost:${PORT}`);
-});
+// Export the Express app for Vercel; keep direct local execution available too.
+if (require.main === module) {
+  const PORT = process.env.PORT || 8000;
+  app.listen(PORT, () => {
+    console.log(`Backend is listening on port ${PORT}`);
+  });
+}
+
+module.exports = app;
