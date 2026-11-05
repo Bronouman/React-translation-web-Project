@@ -8,7 +8,7 @@ export default function ContactPage({ interfaceLang }) {
         <h2 style={{ marginBottom: '20px', color: '#1e293b' }}>اتصل بنا</h2>
 
         <div style={{ background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
-          <p style={{ margin: '8px 0' }}><strong>الاتصال :</strong> ٦٠١١٥٧٨١٣٩٧٨+ | ٩١٩٠٥٢٨٤٣٣٤٣+</p>
+          <p style={{ margin: '8px 0' }}><strong>الاتصال :</strong> ٦٠١١٥٧٨١٣٩٧٨+ | ٩١٧٩٨١٦٠٦٥٤٨+</p>
           <p style={{ margin: '8px 0' }}><strong>البريد الإلكتروني :</strong> mohammadgmalr@gmail.com</p>
           <p style={{ margin: '8px 0' }}><strong>المواعيد:</strong> ٥:٠٠ مساءً - ٧:٠٠ مساءً</p>
         </div>
@@ -39,7 +39,7 @@ export default function ContactPage({ interfaceLang }) {
       <h2 style={{ marginBottom: '20px', color: '#1e293b' }}>Contact Us</h2>
 
       <div style={{ background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
-        <p style={{ margin: '8px 0' }}><strong>Call :</strong> +91 90528 43343 | +60 1157813978</p>
+        <p style={{ margin: '8px 0' }}><strong>Call :</strong> +91 7981606548 | +60 1157813978</p>
         <p style={{ margin: '8px 0' }}><strong>Email :</strong> mohammadgmalr@gmail.com</p>
         <p style={{ margin: '8px 0' }}><strong>Timings :</strong> 5:00 PM - 7:00 PM</p>
       </div>
